@@ -1,19 +1,21 @@
 const express = require('express');
 const axios = require('axios');
+const cors = require('cors');
 const app = express();
-const port = 3000;
+const port = 8000;
 
 // const xivApiPrivateKey = 'API_KEY';
 const xivApiPrivateKey = '77e71ea12ea143c7b0520295eb1cc31b0be74519e5924792917a4c191ae44fbc';
 // world IDs
 const worldIds = [34, 37, 41, 62, 74, 75, 81, 91];
 // GET search item by item name
+
+app.use(cors({ origin: '*' }));
 /**
  * use req.query.item_name to call xiv API to pull the item IDs[]
  * use item IDs from xiv API to call universalis API and map item_id, item_name and item_type
  */
 app.get('/search-itemname', async (req, res) => {
-    console.log('called!')
     const item_name = req.query.item_name;
     const xivApiGetItemDetailQuery = `https://xivapi.com/search?indexes=item&string=${item_name}&sort_field=LevelItem&sort_order=desc&limit=100&private_keys=${xivApiPrivateKey}`;
     // `https://xivapi.com/search
